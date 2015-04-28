@@ -39,9 +39,11 @@ module Answerific
     def mine(query)
       results = []
 
-      Google::Search::Web.new(query: query).each do |r|
+      p "Searching google for " + query
+      Google::Search::Web.new(query: "\"#{query}\"").each do |r|
         results << clean_google_result(r.content)
       end
+      p results
 
       process_google_results(results, query)
     end
@@ -151,7 +153,7 @@ module Answerific
 
     def clean_google_result(string)
       re = /<("[^"]*"|'[^']*'|[^'">])*>/
-      string.gsub(re, '').gsub("\n",'').gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '')
+      string.gsub(re, '').gsub("\n",'').gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '').downcase
     end
   end
 end

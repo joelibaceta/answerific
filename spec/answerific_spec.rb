@@ -9,7 +9,6 @@ describe Answerific do
       query = 'pluto is'
 
       expected = results[0..1]
-      
       expect(bot.select_responses(results, query)).to eq expected
     end
   end
@@ -44,7 +43,7 @@ describe Answerific do
     end
   end
   context '.preprocess' do
-    let(:test_string) { '  an invalid string!!?>: A 2nd one!) ' }
+    let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
     it 'downcases and removes non-alpha numeric characters' do
       expect(bot.preprocess(test_string)).to eq('an invalid string a 2nd one')
     end

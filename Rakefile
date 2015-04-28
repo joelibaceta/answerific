@@ -8,3 +8,7 @@ RSpec::Core::RakeTask.new(:spec) do |task|
 end
 
 task :default => :spec
+
+task :console do
+  exec "irb -r answerific -I ./lib"
+end

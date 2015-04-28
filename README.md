@@ -1,8 +1,6 @@
 # Answerific
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/answerific`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+AI Bot that can answer questions posed in natural language.
 
 ## Installation
 
@@ -22,7 +20,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+WIP. Will be something like
+
+    bot = Answerific::Bot.new()
+    bot.answer('what is the composition of Pluto?')
+
+## How it works
+
+Given an input, answerific will
+
+1. Preprocess the input
+2. Detect the type of question (broad classes: wh - *what is...* - or declarative - *tell me ...*)
+3. Parse and rearrange the input given the type of question
+4. Extract information from the web for that parsed input
+5. Select and return the best answer
 
 ## Development
 

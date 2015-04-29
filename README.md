@@ -20,8 +20,6 @@ Or install it yourself as:
 
 ## Usage
 
-WIP. Will be something like
-
     bot = Answerific::Bot.new()
     bot.answer('what is the composition of Pluto?')
 
@@ -34,6 +32,12 @@ Given an input, answerific will
 3. Parse and rearrange the input given the type of question
 4. Extract information from the web for that parsed input
 5. Select and return the best answer
+
+## Roadmap
+
+* Add options at initialization
+* Sentence split on dot: handle abbreviations
+* Return special message when no result found? Or just nil?
 
 ## Development
 

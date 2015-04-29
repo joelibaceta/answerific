@@ -5,7 +5,7 @@ module Answerific
   class Bot
 
     def answer(question)
-      p mine(parse(question))
+      mine(parse(preprocess(question)))
     end
 
     # === SELECT RESPONSE ===
@@ -28,7 +28,7 @@ module Answerific
 
       # Select the responses, only keeping the sentence that contain the search query
       selected = sentences.select do |sentence|
-        query_words.all? { |w| sentence.include? w }
+        query_words.all? { |w| sentence.include? w }  # contains all query words
       end
 
       return selected
@@ -39,11 +39,9 @@ module Answerific
     def mine(query)
       results = []
 
-      p "Searching google for " + query
-      Google::Search::Web.new(query: "\"#{query}\"").each do |r|
+      Google::Search::Web.new(query: query).each do |r|
         results << clean_google_result(r.content)
       end
-      p results
 
       process_google_results(results, query)
     end
@@ -146,14 +144,16 @@ module Answerific
     # Cleans the string `input` by removing non alpha-numeric characters
     def clean(input)
       ret = input.downcase
-      ret.gsub!(/[^0-9a-z ]/i, '').strip!
-
-      return ret
+      ret.gsub(/[^0-9a-z ]/i, '').strip
     end
 
     def clean_google_result(string)
-      re = /<("[^"]*"|'[^']*'|[^'">])*>/
-      string.gsub(re, '').gsub("\n",'').gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '').downcase
+      string
+        .downcase
+        .gsub(/[^\.]+\.{3,}/, '')                 # remove incomplete sentences
+        .gsub(/<("[^"]*"|'[^']*'|[^'">])*>/, '')  # html tags
+        .gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '')  # dates (27 Jan, 2015)
+        .gsub("\n",'')                            # new lines
     end
   end
 end

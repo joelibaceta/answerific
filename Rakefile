@@ -12,3 +12,5 @@ task :default => :spec
 task :console do
   exec "irb -r answerific -I ./lib"
 end
+
+task :c => :console

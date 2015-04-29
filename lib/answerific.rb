@@ -23,7 +23,7 @@ module Answerific
 
     # Returns the responses from `results` that have a the words in `query`
     def select_responses(results, query)
-      sentences = results.map { |r| r.split '.' }.flatten
+      sentences = results.map { |r| split_at_dot r }.flatten
       query_words = query.split ' '
 
       # Select the responses, only keeping the sentence that contain the search query
@@ -147,13 +147,20 @@ module Answerific
       ret.gsub(/[^0-9a-z ]/i, '').strip
     end
 
+    # === OTHER FORMATTING ===
+
     def clean_google_result(string)
       string
-        .downcase
-        .gsub(/[^\.]+\.{3,}/, '')                 # remove incomplete sentences
-        .gsub(/<("[^"]*"|'[^']*'|[^'">])*>/, '')  # html tags
-        .gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '')  # dates (27 Jan, 2015)
-        .gsub("\n",'')                            # new lines
+      .downcase
+      .gsub(/[^\.]+\.{3,}/, '')                 # remove incomplete sentences
+      .gsub(/<("[^"]*"|'[^']*'|[^'">])*>/, '')  # html tags
+      .gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '')  # dates (27 Jan, 2015)
+      .gsub("\n",'')                            # new lines
+    end
+
+    def split_at_dot(string)
+      re = /([a-z]{2})[\.\?!] ?/i  # regex to match *aa. where a is any letter
+      string.split(re).each_slice(2).map(&:join)
     end
   end
 end

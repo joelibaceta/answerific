@@ -42,10 +42,20 @@ describe Answerific do
       expect(bot.broad_question_type('tell me')).to eq 'declarative'
     end
   end
+
   context '.preprocess' do
     let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
     it 'downcases and removes non-alpha numeric characters' do
       expect(bot.preprocess(test_string)).to eq('an invalid string a 2nd one')
     end
+  end
+
+  context '.split_at_dot' do
+    let(:test_string) { "it is c. archibald. yes, i assure you! it's him? yep." }
+
+    it {
+      expected = ["it is c. archibald", "yes, i assure you", "it's him", "yep"]
+      expect(bot.split_at_dot(test_string)).to eq expected
+    }
   end
 end

@@ -4,7 +4,10 @@ require "google-search"
 module Answerific
   class Bot
 
+    # Answers `question` by querying Google
+    # Returns a string containing the response or nil if none is found
     def answer(question)
+      return nil if !question || question.empty?
       mine(parse(preprocess(question)))
     end
 

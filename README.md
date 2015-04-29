@@ -28,7 +28,7 @@ Or install it yourself as:
 Given an input, answerific will
 
 1. Preprocess the input
-2. Detect the type of question (broad classes: wh - *what is...* - or declarative - *tell me ...*)
+2. Detect the type of question
 3. Parse and rearrange the input given the type of question
 4. Extract information from the web for that parsed input
 5. Select and return the best answer

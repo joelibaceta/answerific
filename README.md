@@ -38,6 +38,8 @@ Given an input, answerific will
 * Add options at initialization
 * Sentence split on dot: handle abbreviations
 * Return special message when no result found? Or just nil?
+* Better support for wh-words (atm, the bot just gets rid of them)
+* Better support for yes-no questions: answer with definite yes-no instead of statement
 
 ## Development
 

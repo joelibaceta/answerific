@@ -2,13 +2,103 @@ require "answerific/version"
 require "google-search"
 
 module Answerific
+
+  # General bot with a personality that can differentiate between
+  # personal questions ('how are you') and technical questions ('how
+  # big is Pluto')
   class Bot
+    DEFAULT_NAME = 'bot'
+
+    def initialize(opts = {})
+      @miner = Answerific::Miner.new
+      @name  = opts[:name].downcase || DEFAULT_NAME
+    end
+
+    def answer(question)
+      q = preprocess(question)
+
+      case is_personal q
+      when -1
+        answer_technical q
+      when 0
+        answer_technical q, true
+      when 1
+        answer_personal q
+      end
+    end
+
+    # Detects wheter a question is a personal question (often related to
+    # feeling) or a technical questions
+    # The main point is to consider keywords like 'you', 'your'
+    #   Example: 'what is *your* name', 'how do *you* feel'
+    # These keywords should not appear in technical questions
+    # However, a question might be asked like this: 'How big are you?' which
+    # is a technical question - the question should be converted to 'how big
+    # is bot' and then treated as a technical question
+    # Returns:
+    #   -1 if question is technical
+    #    0 if question is technical but in the form of a personal question
+    #    1 if question is personal
+    def is_personal(question)
+      personal_keywords = %w(you your yours)
+      technical_keywords = %w(where big size)
+
+      count = -1
+      if personal_keywords.any? { |k| question.include? k }
+        count += 1
+        count += 1 unless technical_keywords.any? { |k| question.include? k }
+      end
+
+      return count
+    end
+
+    def answer_personal(question)
+      # TODO
+    end
+
+    def answer_technical(question, personal_in_disguise=false)
+      question = make_question_technical(question) if personal_in_disguise
+      @miner.answer(question)
+    end
+
+    # Takes a question asked in the form of a personal question
+    # and converts it to a technical question
+    # Example: how big are you? #=> how big is Pluto
+    def make_question_technical(question)
+      trans = {
+        "your" => "#{@name}'s",
+        "you" => @name,
+        "are"  => "is"
+      }
+
+      question.split(' ').map { |w| trans[w] ? trans[w] : w }.join ' '
+    end
+
+    # === PREPROCESSING ===
+
+    # Returns cleaned `input`
+    def preprocess(input)
+      clean(input)
+    end
+
+    # Cleans the string `input` by removing non alpha-numeric characters
+    def clean(input)
+      ret = input.downcase
+      ret.gsub(/[^0-9a-z ]/i, '').strip
+    end
+  end
+
+  # Miner bot that answers questions by extracting information from the web
+  # Currently only supports Google Search
+  class Miner
 
     # Answers `question` by querying Google
+    # Assumes `question` is downcase, only contains alpha numeric characters
+    #   (i.e. has been preprocessed by Answerific::Bot.preprocess)
     # Returns a string containing the response or nil if none is found
     def answer(question)
       return nil if !question || question.empty?
-      mine(parse(preprocess(question)))
+      mine(parse(question))
     end
 
     # === SELECT RESPONSE ===
@@ -135,19 +225,6 @@ module Answerific
     def is_yes_no_question(question)
       yes_no_words = %w(am are is was were have has do does did can could should may)
       return /^#{Regexp.union(*yes_no_words)}/ === question
-    end
-
-    # === PREPROCESSING ===
-
-    # Returns cleaned `input`
-    def preprocess(input)
-      clean(input)
-    end
-
-    # Cleans the string `input` by removing non alpha-numeric characters
-    def clean(input)
-      ret = input.downcase
-      ret.gsub(/[^0-9a-z ]/i, '').strip
     end
 
     # === OTHER FORMATTING ===

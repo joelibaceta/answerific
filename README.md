@@ -1,6 +1,6 @@
 # Answerific
 
-AI Bot that can answer questions posed in natural language.
+Mining bot that can answer natural language questions by mining the web.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-    bot = Answerific::Bot.new()
+    bot = Answerific::Miner.new()
     bot.answer('what is the composition of Pluto?')
 
 ## How it works
@@ -36,8 +36,6 @@ Given an input, answerific will
 ## Roadmap
 
 * [ ] Add options at initialization
-* [X] Sentence split on dot: handle abbreviations
-* [X] Return special message when no result found? Or just nil?
 * [ ] Better support for wh-words (atm, the bot just gets rid of them)
 * [ ] Better support for yes-no questions: answer with definite yes-no instead of statement
 

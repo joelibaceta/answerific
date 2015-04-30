@@ -1,56 +1,6 @@
 require 'spec_helper'
 
 describe Answerific do
-
-  describe Answerific::Bot do
-    let(:bot) { Answerific::Bot.new name: 'Pluto' }
-
-    context '.is_personal' do
-      it 'detects personal questions' do
-        questions = ['how are you', 'i like you', 'you are smart']
-        questions.each { |q| expect(bot.is_personal(q)).to eq 1 }
-      end
-
-      it 'detects technical questions' do
-        questions = ['where is the Kuiper belt', 'what is Pluto?']
-        questions.each { |q| expect(bot.is_personal(q)).to eq(-1) }
-      end
-
-      it 'detects technical questions posed as personal questions' do
-        questions = ['where are you', 'how big are you']
-        questions.each { |q| expect(bot.is_personal(q)).to eq 0 }
-      end
-    end
-
-    context '.answer_personal_question' do
-
-    end
-
-    context '.make_technical_quesiton' do
-      it do
-        question = 'how big are you'
-        expected = 'how big is pluto'
-        expect(bot.make_question_technical(question)).to eq expected
-      end
-    end
-
-    context '.make_answer_personal' do
-      it do
-        answer = 'pluto is pluto\'s orbit, pluto has pluto'
-        expected = 'I am my orbit, I have me'
-        expect(bot.make_answer_personal(answer)).to eq expected
-      end
-    end
-
-    context '.preprocess' do
-      let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
-      it 'downcases and removes non-alpha numeric characters' do
-        expect(bot.preprocess(test_string)).to eq('an invalid string a 2nd one')
-      end
-    end
-
-  end
-
   describe Answerific::Miner
   let(:miner) { Answerific::Miner.new }
 
@@ -101,5 +51,12 @@ describe Answerific do
       expected = ["it is c. archibald", "yes, i assure you", "it's him", "yep"]
       expect(miner.split_at_dot(test_string)).to eq expected
     }
+  end
+
+  context '.preprocess' do
+    let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
+    it 'downcases and removes non-alpha numeric characters' do
+      expect(bot.preprocess(test_string)).to eq('an invalid string a 2nd one')
+    end
   end
 end

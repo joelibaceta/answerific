@@ -53,12 +53,17 @@ module Answerific
     end
 
     def answer_personal(question)
+      p "Answering personal"
       # TODO
     end
 
     def answer_technical(question, personal_in_disguise=false)
-      question = make_question_technical(question) if personal_in_disguise
-      @miner.answer(question)
+      if personal_in_disguise
+        make_question_technical(question) if personal_in_disguise
+        make_answer_personal(@miner.answer(make_question_technical(question)))
+      else
+        @miner.answer(question)
+      end
     end
 
     # Takes a question asked in the form of a personal question
@@ -73,6 +78,21 @@ module Answerific
       question.gsub(/[[:word:]]+/).each do |word|
         trans[word] || word
       end
+    end
+
+    def make_answer_personal(answer)
+      # TODO remove html encoding like '=&#39;
+      hash = {
+        "#{@name} is" => "I am",
+        "#{@name} was" => "I was",
+        "#{@name} has" => "I have",
+        "#{@name} had" => "I had",
+        "#{@name}&#39;s" => "my",
+        "#{@name}" => "me"
+      }
+      hash.each { |k,v| answer.sub! k, v }
+
+      answer
     end
 
     # === PREPROCESSING ===
@@ -97,7 +117,8 @@ module Answerific
     # Assumes `question` is downcase, only contains alpha numeric characters
     #   (i.e. has been preprocessed by Answerific::Bot.preprocess)
     # Returns a string containing the response or nil if none is found
-    def answer(question)
+    def answer(question) 
+      p 'Answering ' + question
       return nil if !question || question.empty?
       mine(parse(question))
     end

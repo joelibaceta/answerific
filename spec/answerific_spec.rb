@@ -34,6 +34,14 @@ describe Answerific do
       end
     end
 
+    context '.make_answer_personal' do
+      it do
+        answer = 'pluto is pluto\'s orbit, pluto has pluto'
+        expected = 'I am my orbit, I have me'
+        expect(bot.make_answer_personal(answer)).to eq expected
+      end
+    end
+
     context '.preprocess' do
       let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
       it 'downcases and removes non-alpha numeric characters' do

@@ -45,10 +45,10 @@ describe Answerific do
   end
 
   context '.split_at_dot' do
-    let(:test_string) { "it is c. archibald. yes, i assure you! it's him? yep." }
+    let(:test_string) { "it is c. archibald. yes! in 2005? in 5." }
 
     it {
-      expected = ["it is c. archibald", "yes, i assure you", "it's him", "yep"]
+      expected = ["it is c. archibald", "yes", "in 2005", "in 5"]
       expect(miner.split_at_dot(test_string)).to eq expected
     }
   end

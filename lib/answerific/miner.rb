@@ -167,7 +167,8 @@ class Answerific::Miner
   end
 
   def split_at_dot(string)
-    re = /([a-z]{2})[\.\?!] ?/i  # regex to match *aa. where a is any letter
+    # matches NUM. or ALPHAALPHA.
+    re = /([0-9]|[a-z]{2})[\.\?!] ?/i
     string.split(re).each_slice(2).map(&:join)
   end
 end

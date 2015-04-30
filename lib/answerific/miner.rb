@@ -11,7 +11,7 @@ class Answerific::Miner
   def answer(question)
     p 'Answering ' + question
     return nil if !question || question.empty?
-    mine(parse(question))
+    mine(parse(preprocess(question)))
   end
 
   # === SELECT RESPONSE ===
@@ -138,6 +138,19 @@ class Answerific::Miner
   def is_yes_no_question(question)
     yes_no_words = %w(am are is was were have has do does did can could should may)
     return /^#{Regexp.union(*yes_no_words)}/ === question
+  end
+
+  # === PREPROCESSING ===
+
+  # Returns cleaned `input`
+  def preprocess(input)
+    clean(input)
+  end
+
+  # Cleans the string `input` by removing non alpha-numeric characters
+  def clean(input)
+    ret = input.downcase
+    ret.gsub(/[^0-9a-z ]/i, '').strip
   end
 
   # === OTHER FORMATTING ===

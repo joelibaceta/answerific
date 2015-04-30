@@ -56,7 +56,7 @@ describe Answerific do
   context '.preprocess' do
     let(:test_string) { '""  an invalid string!!?>: A 2nd one!) ' }
     it 'downcases and removes non-alpha numeric characters' do
-      expect(bot.preprocess(test_string)).to eq('an invalid string a 2nd one')
+      expect(miner.preprocess(test_string)).to eq('an invalid string a 2nd one')
     end
   end
 end

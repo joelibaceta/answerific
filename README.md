@@ -2,6 +2,8 @@
 
 Mining bot that can answer natural language questions by mining the web.
 
+**Note.** The accuracy of the bot (number of relevant answers) is fairly low right now.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -20,8 +22,24 @@ Or install it yourself as:
 
 ## Usage
 
-    bot = Answerific::Miner.new()
-    bot.answer('what is the composition of Pluto?')
+```ruby
+# Initialize a new Miner object
+miner = Answerific::Miner.new()
+
+# And ask it to answer questions
+
+miner.answer 'what is the composition of Pluto?'
+=> "scientists believe pluto is made mostly of rock and ice, but they will not be sure until more research is done"
+
+miner.answer 'what is a fixie bike?'
+=> "the fixies or fixed gears bicycles, in english, are gear bikes or fixed gear"
+
+mine.answer 'who is Jane Austen?'
+=> "Jane Austen is more than just a feminist"
+
+miner.answer 'where is Montreal located?'
+=> "montreal is a city/town with a large population in the province of quebec, canada which is located in the continent/region of north america"
+```
 
 ## How it works
 
@@ -35,6 +53,7 @@ Given an input, answerific will
 
 ## Roadmap
 
+* [ ] Improve accuracy of the answers
 * [ ] Add options at initialization
 * [ ] Better support for wh-words (atm, the bot just gets rid of them)
 * [ ] Better support for yes-no questions: answer with definite yes-no instead of statement

@@ -11,7 +11,7 @@ module Answerific
 
     def initialize(opts = {})
       @miner = Answerific::Miner.new
-      @name  = opts[:name].downcase || DEFAULT_NAME
+      @name  = opts[:name].downcase || DEFAULT_NAME if opts[:name]
     end
 
     def answer(question)

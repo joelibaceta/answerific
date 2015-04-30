@@ -68,10 +68,11 @@ module Answerific
       trans = {
         "your" => "#{@name}'s",
         "you" => @name,
-        "are"  => "is"
-      }
+        "are"  => "is" }
 
-      question.split(' ').map { |w| trans[w] ? trans[w] : w }.join ' '
+      question.gsub(/[[:word:]]+/).each do |word|
+        trans[word] || word
+      end
     end
 
     # === PREPROCESSING ===
@@ -116,7 +117,7 @@ module Answerific
 
     # Returns the responses from `results` that have a the words in `query`
     def select_responses(results, query)
-      sentences = results.map { |r| split_at_dot r }.flatten
+      sentences = results.map { |r| split_at_dot(r) }.flatten
       query_words = query.split ' '
 
       # Select the responses, only keeping the sentence that contain the search query
@@ -236,6 +237,7 @@ module Answerific
       .gsub(/<("[^"]*"|'[^']*'|[^'">])*>/, '')  # html tags
       .gsub(/\w{3} \d{1,2}, \d{4} \.{3} /, '')  # dates (27 Jan, 2015)
       .gsub("\n",'')                            # new lines
+      .strip
     end
 
     def split_at_dot(string)

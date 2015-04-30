@@ -34,7 +34,7 @@ miner.answer 'what is the composition of Pluto?'
 miner.answer 'what is a fixie bike?'
 => "the fixies or fixed gears bicycles, in english, are gear bikes or fixed gear"
 
-mine.answer 'who is Jane Austen?'
+miner.answer 'who is Jane Austen?'
 => "Jane Austen is more than just a feminist"
 
 miner.answer 'where is Montreal located?'

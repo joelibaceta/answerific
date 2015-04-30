@@ -76,16 +76,14 @@ class Answerific::Bot
   end
 
   def make_answer_personal(answer)
-    # TODO remove html encoding like '=&#39;
-    hash = {
+    {
       "#{@name} is" => "I am",
       "#{@name} was" => "I was",
       "#{@name} has" => "I have",
       "#{@name} had" => "I had",
-      "#{@name}&#39;s" => "my",
+      "#{@name}'s" => "my",
       "#{@name}" => "me"
-    }
-    hash.each { |k,v| answer.sub! k, v }
+    } .each { |k,v| answer.sub! k, v }
 
     answer
   end

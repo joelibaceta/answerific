@@ -1,3 +1,5 @@
+require 'cgi'
+
 # Miner bot that answers questions by extracting information from the web
 # Currently only supports Google Search
 class Answerific::Miner
@@ -6,7 +8,7 @@ class Answerific::Miner
   # Assumes `question` is downcase, only contains alpha numeric characters
   #   (i.e. has been preprocessed by Answerific::Bot.preprocess)
   # Returns a string containing the response or nil if none is found
-  def answer(question) 
+  def answer(question)
     p 'Answering ' + question
     return nil if !question || question.empty?
     mine(parse(question))
@@ -141,6 +143,7 @@ class Answerific::Miner
   # === OTHER FORMATTING ===
 
   def clean_google_result(string)
+    string = CGI.unescapeHTML(string)
     string
     .downcase
     .gsub(/[^\.]+\.{3,}/, '')                 # remove incomplete sentences

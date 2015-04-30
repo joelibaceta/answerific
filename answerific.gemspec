@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Justin Domingue"]
   spec.email         = ["justin.domingue@hotmail.com"]
 
-  spec.summary       = 'Bot that answers natural language questions.'
+  spec.summary       = ' Mining bot that can answer natural language questions by mining the web.
+'
   spec.homepage      = 'https://github.com/justindomingue/answerific'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
